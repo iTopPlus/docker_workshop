@@ -1,0 +1,23 @@
+global:
+  resolve_timeout: 5m
+  smtp_require_tls: true
+route:
+  group_by: ["alertname"]
+  group_wait: 10s
+  group_interval: 10s
+  repeat_interval: 1h
+  receiver: "email-me-slack"
+receivers:
+  - name: email-me-slack
+    email_configs:
+    slack_configs:
+      - api_url: https://hooks.slack.com/services/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
+        channel: "#emergency"
+        send_resolved: true
+
+inhibit_rules:
+  - source_match:
+      severity: "critical"
+    target_match:
+      severity: "warning"
+    equal: ["alertname", "dev", "instance"]

@@ -1,0 +1,6 @@
+groups:
+  - name: nginx
+    rules:
+      - alert: nginx_down
+        expr: nginx_up{job="nginx"} == 0
+        for: 15s

@@ -1,0 +1,48 @@
+version: "3"
+services:
+  nginx:
+    image: openresty/openresty:stretch-fat
+    # network_mode: host
+    container_name: nginx
+    volumes:
+      - ./nginx.conf:/usr/local/openresty/nginx/conf/nginx.conf
+      - ./conf.d:/etc/nginx/conf.d
+      - ./sites-enabled:/etc/nginx/sites-enabled
+      - ./html:/var/www/html
+      - ./cache:/data/cache
+    restart: always
+    # logging:
+    #   driver: none
+    links:
+      - express1
+      - express2
+      - express3
+    networks:
+      - internal
+    ports:
+      - 80:80
+  express1:
+    image: test
+    # network_mode: host
+    container_name: express1
+    restart: always
+    networks:
+      - internal
+  express2:
+    image: test
+    # network_mode: host
+    container_name: express2
+    restart: always
+    networks:
+      - internal
+  express3:
+    image: test
+    # network_mode: host
+    container_name: express3
+    restart: always
+    networks:
+      - internal
+networks:
+  internal:
+volumes:
+  sample:
